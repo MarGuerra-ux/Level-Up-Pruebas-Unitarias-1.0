@@ -36,13 +36,8 @@ android {
 
     buildFeatures { compose = true }
 
-    // ⚙️ Para que las pruebas usen JUnit 5 (Kotest + MockK)
-    testOptions {
-        unitTests.all {
-            // Esta función viene de org.gradle.api.tasks.testing.Test
-            it.useJUnitPlatform()
-        }
-    }
+    // 👇 Quitamos testOptions.useJUnitPlatform() porque ahora usamos JUnit4 clásico
+    // Si en el futuro necesitas opciones extra para tests, puedes re-agregar testOptions {}
 }
 
 dependencies {
@@ -55,9 +50,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
-    // --- Tests de corrutinas (para probar ViewModel con StateFlow) ---
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 
     // --- Animaciones entre pantallas con Compose Navigation ---
     implementation("com.google.accompanist:accompanist-navigation-animation:0.36.0")
@@ -95,31 +87,25 @@ dependencies {
     // --- Google Maps SDK para Android (Mapa de sucursales) ---
     implementation("com.google.android.gms:play-services-maps:19.0.0")
 
-    // --- Tests existentes (JUnit 4 clásico) ---
-    testImplementation(libs.junit) // lo dejamos por compatibilidad con archivos antiguos
-
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-
     // ============================
-    // 🔬 Testing avanzado (Unit Test)
+    // 🧪 Testing (Unit & Instrumented)
     // ============================
 
-    // JUnit 5
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    // JUnit4 clásico (viene del catálogo libs)
+    testImplementation(libs.junit)
 
-    // Kotest (para StringSpec y shouldContainExactly)
-    testImplementation("io.kotest:kotest-runner-junit5:5.9.1")
-    testImplementation("io.kotest:kotest-assertions-core:5.9.1")
+    // Tests de corrutinas (runTest, etc.)
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 
     // MockK (mocks de GameDao, etc.)
     testImplementation("io.mockk:mockk:1.13.12")
 
-    // Coroutines Test (runTest, etc.)
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.1")
+    // Instrumented tests (androidTest)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }

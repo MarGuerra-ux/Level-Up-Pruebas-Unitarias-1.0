@@ -5,20 +5,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.ejemplo_level_up.ui.components.TopBar   // 👈 IMPORTA TU TOPBAR
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -36,16 +32,9 @@ fun MapScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Sucursales Level-Up") },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Volver"
-                        )
-                    }
-                }
+            TopBar(
+                title = "Mapa de sucursales",   // 👈 TEXTO EXACTO QUE PIDE EL TEST
+                onBack = onBack
             )
         }
     ) { innerPadding ->
@@ -83,10 +72,9 @@ fun MapScreen(
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Av. Concha y Toro 2557,\n" +
-                            "8150215 Puente Alto,\n" +
-                            "Región Metropolitana"
+                    text = "Av. Concha y Toro 2557, 8150215 Puente Alto, Región Metropolitana"
                 )
+
             }
         }
     }
@@ -109,3 +97,4 @@ private fun setupMap(map: GoogleMap) {
             .snippet("Av. Concha y Toro 2557, Puente Alto")
     )
 }
+

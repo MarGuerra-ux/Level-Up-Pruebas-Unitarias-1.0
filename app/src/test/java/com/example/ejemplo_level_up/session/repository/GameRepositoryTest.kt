@@ -1,17 +1,15 @@
 package com.example.ejemplo_level_up.data.session.repository
 
-
-
 import com.example.ejemplo_level_up.data.dao.GameDao
 import com.example.ejemplo_level_up.data.model.Game
 import com.example.ejemplo_level_up.data.repository.GameRepository
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
-import org.junit.jupiter.api.Assertions.assertEquals
+import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 /**
  * GameRepositoryTest
@@ -27,10 +25,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
  * - Simulamos Flows con values fake.
  * - Comprobamos allGames() y gameById() del repositorio.
  */
-class GameRepositoryTest : StringSpec({
+class GameRepositoryTest {
 
-    "allGames debe devolver la lista simulada de juegos" {
-
+    @Test
+    fun `allGames debe devolver la lista simulada de juegos`() = runBlocking {
         // ----- Arrange -----
         val fakeGames = listOf(
             Game(
@@ -64,11 +62,11 @@ class GameRepositoryTest : StringSpec({
         val result = repository.allGames().first()
 
         // ----- Assert -----
-        result shouldContainExactly fakeGames
+        assertEquals(fakeGames, result)
     }
 
-    "gameById debe devolver el juego correcto según el id" {
-
+    @Test
+    fun `gameById debe devolver el juego correcto según el id`() = runBlocking {
         // ----- Arrange -----
         val fakeGame = Game(
             id = "10",
@@ -93,4 +91,4 @@ class GameRepositoryTest : StringSpec({
         assertEquals("The Legend of Zelda: BOTW", result?.title)
         assertEquals("10", result?.id)
     }
-})
+}
